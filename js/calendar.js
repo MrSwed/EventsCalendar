@@ -1,3 +1,10 @@
+function formatZero(item,countZero) {
+ need = countZero-(""+item).length;
+ if (need>0)
+  for (i=1;i<=need;i++) item="0"+item
+ return item;
+}
+
 if (typeof jQuery == "function") {
 // jQuery.noConflict();
 // (function($) { 
