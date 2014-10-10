@@ -7,37 +7,37 @@ $(function(){
  function(o){ //calendar
   o = $(o);
   if (!o.size()) return;
-  if (!calendarLang) calendarLang = {'months':'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};
+  if (!calendarLang) calendarLang = {'months':'СЏРЅРІР°СЂСЊ,С„РµРІСЂР°Р»СЊ,РјР°СЂС‚,Р°РїСЂРµР»СЊ,РјР°Р№,РёСЋРЅСЊ,РёСЋР»СЊ,Р°РІРіСѓСЃС‚,СЃРµРЅС‚СЏР±СЂСЊ,РѕРєС‚СЏР±СЂСЊ,РЅРѕСЏР±СЂСЊ,РґРµРєР°Р±СЂСЊ'.split(",")};
   var today=new Date();
   today=new Date(today.getFullYear(),today.getMonth(),today.getDate()); // reset to 00:00:00
-  var monthDraw = function(m,p) { // m - месяц в теущем году или смещение (+-) относительного текущего месяца
+  var monthDraw = function(m,p) { // m - РјРµСЃСЏС† РІ С‚РµСѓС‰РµРј РіРѕРґСѓ РёР»Рё СЃРјРµС‰РµРЅРёРµ (+-) РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРіРѕ С‚РµРєСѓС‰РµРіРѕ РјРµСЃСЏС†Р°
    p = $.extend({},{
     onlyCurrent:false, // true - hide dates filled on empty weekdays for prev and next month
     year:false,
    },p);
    var mDays = $(".monthdays",o), y = p["year"];
-   if (typeof m ==="undefined" || !m) mDate = new Date(y?y:today.getFullYear(),today.getMonth(),1); //текущий месяц
+   if (typeof m ==="undefined" || !m) mDate = new Date(y?y:today.getFullYear(),today.getMonth(),1); //С‚РµРєСѓС‰РёР№ РјРµСЃСЏС†
    else {
     mDate = mDays.data("date")?mDays.data("date"):today;
     y = y?y:mDate.getFullYear();
-    if(/^[-+]$/.test(m[0])) mDate=new Date(y,mDate.getMonth() + (1*m)); // смещение
-    else mDate=new Date(y,m); // указанный месяц
+    if(/^[-+]$/.test(m[0])) mDate=new Date(y,mDate.getMonth() + (1*m)); // СЃРјРµС‰РµРЅРёРµ
+    else mDate=new Date(y,m); // СѓРєР°Р·Р°РЅРЅС‹Р№ РјРµСЃСЏС†
    }
    m = mDate.getMonth();
    y = mDate.getFullYear();
    $(".curmonth .name",o).text(calendarLang["months"][m] + " " + y);
-   var wSS = mDate.getDay();wSS = 1 - (wSS?wSS:7); //сдвиг на первый понедельник
-   var wSE = new Date(y,m+1,0).getDay();wSE = 7 - (wSE?wSE:7); //сдвиг на последнее воскресенье
-   var setDe = new Date(y,m+1,wSE); // последняя дата отрисовки
+   var wSS = mDate.getDay();wSS = 1 - (wSS?wSS:7); //СЃРґРІРёРі РЅР° РїРµСЂРІС‹Р№ РїРѕРЅРµРґРµР»СЊРЅРёРє
+   var wSE = new Date(y,m+1,0).getDay();wSE = 7 - (wSE?wSE:7); //СЃРґРІРёРі РЅР° РїРѕСЃР»РµРґРЅРµРµ РІРѕСЃРєСЂРµСЃРµРЅСЊРµ
+   var setDe = new Date(y,m+1,wSE); // РїРѕСЃР»РµРґРЅСЏСЏ РґР°С‚Р° РѕС‚СЂРёСЃРѕРІРєРё
    mDays.data({
     "date":mDate,
     "start":new Date(y,m,!p["onlyCurrent"]?wSS:1).getTime()/1000,
     "end":new Date(y,m+1,!p["onlyCurrent"]?wSE:1).getTime()/1000
    }).html("");
-   while (++wSS<50) { // рисуем дни
+   while (++wSS<50) { // СЂРёСЃСѓРµРј РґРЅРё
     var setD = new Date(y,m,wSS);
     var sDm = {m:setD.getMonth(),wd:setD.getDay(),d:setD.getDate()};
-    var weekD = sDm["wd"]==1?$("<div />").appendTo($(".monthdays",o)):$(".monthdays div:last",o); //обертка в неделю
+    var weekD = sDm["wd"]==1?$("<div />").appendTo($(".monthdays",o)):$(".monthdays div:last",o); //РѕР±РµСЂС‚РєР° РІ РЅРµРґРµР»СЋ
     var isCurM = sDm["m"]==m;
     var dayclass = (!isCurM?"over ":"")+(today.getTime()==setD.getTime()?"today ":"");
     weekD.append("<span "+(dayclass?"class='"+dayclass+"'":"")+">"+
