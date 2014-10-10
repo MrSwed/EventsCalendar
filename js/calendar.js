@@ -4,7 +4,7 @@ if (typeof jQuery == "function") {
 $(function(){
 
 
- function(o){ //calendar
+ (function(o){ //calendar
   o = $(o);
   if (!o.size()) return;
   if (!calendarLang) calendarLang = {'months':'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};
@@ -98,7 +98,7 @@ $(function(){
    });
   });
   $(".name",$(".curmonth",o)).click();
- }
+ })(".calendar");
 
 });
 //})(jQuery);
