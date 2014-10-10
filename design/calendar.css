@@ -1,44 +1,36 @@
 .calendar {
   position: relative;
-  text-align: center;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-family: "Calibri";
   cursor: default;
-}
-.block .calendar {
-  border: 1px solid #6CAFD6;
-  padding: 7px;
-  background: #ffffff;
-  background: -moz-linear-gradient(left, #ffffff 0%, #d3d3d3 100%);
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #ffffff), color-stop(100%, #d3d3d3));
-  background: -webkit-linear-gradient(left, #ffffff 0%, #d3d3d3 100%);
-  background: -o-linear-gradient(left, #ffffff 0%, #d3d3d3 100%);
-  background: -ms-linear-gradient(left, #ffffff 0%, #d3d3d3 100%);
-  background: linear-gradient(to right, #ffffff 0%, #d3d3d3 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d3d3d3', GradientType=1);
+  background: #d4dfdd;
+  border-radius: 14px;
+  padding: 2px 5px 1em;
+  text-align: center;
+  height: 168px;
 }
 .calendar .prev,
 .calendar .next {
   cursor: pointer;
-  background: url("images/arrows-calendar.png") no-repeat 3px center;
+  background: url("images/nav-calendar.png") no-repeat scroll 0 center rgba(0, 0, 0, 0);
+  border-radius: 17px;
   display: block;
+  height: 100%;
   position: absolute;
-  height: 20px;
-  width: 20px;
   top: 0;
-  border: 1px solid #6CAFD6;
-  border-radius: 5px;
+  width: 17px;
   z-index: 1;
 }
 .calendar .prev {
   left: 0;
 }
 .calendar .next {
-  background-position: -29px center;
+  background-position: -18px center;
   right: 0;
 }
 .calendar .curmonth {
@@ -46,57 +38,98 @@
   height: 23px;
   line-height: 23px;
   text-align: center;
-}
-.calendar .curmonth :first-letter {
-  text-transform: uppercase;
+  color: #424242;
+  text-transform: capitalize;
 }
 .calendar .weekdays {
-  padding: 6px 0;
-  font-weight: bold;
+  border: 1px solid #c5c5c5;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background: #fafafa;
+  background: -moz-linear-gradient(top, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(50%, #ececec), color-stop(100%, #dbdbdb));
+  background: -webkit-linear-gradient(top, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
+  background: -o-linear-gradient(top, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
+  background: -ms-linear-gradient(top, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
+  background: linear-gradient(to bottom, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#dbdbdb',GradientType=0 );;
+  color: #7C8289;
+}
+.calendar .weekdays span {
+  border: none;
+  text-transform: capitalize;
 }
 .calendar span {
-  border: 1px solid transparent;
-  display: inline-block;
-  line-height: 24px;
-  padding: 0 4px;
+  font-size: 10px;
+  border-width: 0 1px 1px;
+  border-style: solid;
+  border-color: #c5c5c5;
+  cursor: default;
+  display: table-cell;
+  height: 1.86em;
+  margin: 0;
   text-align: center;
   vertical-align: middle;
-  width: 8%;
-  margin: 1px 0;
-  cursor: default;
+  width: 14.2%;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
-.calendar span:nth-child(6),
-.calendar span:nth-child(7) {
-  color: #7B0000;
+.calendar .monthdays > div,
+.calendar .weekdays {
+  border-collapse: collapse;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
 }
 .calendar .monthdays span {
-  background: none repeat scroll 0 0 rgba(247, 243, 247, 0.3);
-  border-color: #dfe6ec;
-  color: #94AABD;
-  text-align: right;
+  color: #155d93;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #cce9e6 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #cce9e6));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #cce9e6 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #cce9e6 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #cce9e6 100%);
+  background: linear-gradient(to bottom, #fefefe 0%, #cce9e6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#cce9e6',GradientType=0 );;
+  text-align: center;
 }
 .calendar .monthdays span:hover {
-  background: none repeat scroll 0 0 rgba(234, 244, 253, 0.5);
-  border-color: #b9cbda;
+  box-shadow: 0 0 1px #333333 inset;
 }
 .calendar .monthdays span.today {
-  color: #e17046;
+  color: #fff;
+  -moz-box-shadow: inset 0 1px 3px #035caa;
+  -webkit-box-shadow: inset 0 1px 3px #035caa;
+  box-shadow: inset 0 1px 3px #035caa;
+  background: #70b9f3;
+  background: -moz-linear-gradient(top, #70b9f3 0%, #388be8 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #70b9f3), color-stop(100%, #388be8));
+  background: -webkit-linear-gradient(top, #70b9f3 0%, #388be8 100%);
+  background: -o-linear-gradient(top, #70b9f3 0%, #388be8 100%);
+  background: -ms-linear-gradient(top, #70b9f3 0%, #388be8 100%);
+  background: linear-gradient(to bottom, #70b9f3 0%, #388be8 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#70b9f3', endColorstr='#388be8',GradientType=0 );;
 }
 .calendar .monthdays span.event {
-  border-color: #6CAFD6;
-  color: #54719e;
-  background: rgba(227, 241, 252, 0.8);
-  font-weight: bold;
+  box-shadow: 0 0 1px red inset;
 }
-.calendar .monthdays span.event .item {
-  margin: 5px 0;
-}
-.calendar .monthdays span:nth-child(6),
-.calendar .monthdays span:nth-child(7) {
-  color: #7B0000;
+.calendar .monthdays span.event.today {
+  box-shadow: inset 0 1px 3px #035caa, 0 0 1px red inset;
 }
 .calendar .monthdays span.over {
-  color: #ccc;
+  color: rgba(67, 149, 235, 0.3);
+  background: #feffff;
+  background: -moz-linear-gradient(top, #feffff 0%, #e9f8f7 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #feffff), color-stop(100%, #e9f8f7));
+  background: -webkit-linear-gradient(top, #feffff 0%, #e9f8f7 100%);
+  background: -o-linear-gradient(top, #feffff 0%, #e9f8f7 100%);
+  background: -ms-linear-gradient(top, #feffff 0%, #e9f8f7 100%);
+  background: linear-gradient(to bottom, #feffff 0%, #e9f8f7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#e9f8f7',GradientType=0 );
 }
 .calendar .monthdays span > div {
   display: none;
@@ -112,6 +145,9 @@
   z-index: 100;
   overflow: auto;
   max-height: 200px;
+}
+.calendar .monthdays span > div .item {
+  margin: 5px 0;
 }
 .calendar .monthdays span:hover > div {
   display: block;
