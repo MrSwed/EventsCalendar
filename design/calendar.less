@@ -1,0 +1,120 @@
+.calendar {
+ position:relative;
+ -webkit-touch-callout: none;
+ -webkit-user-select: none;
+ -khtml-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+ cursor:default;
+ .block & {
+  text-align: center;
+  border: 1px solid #6CAFD6;
+  padding: 7px;
+  background: #ffffff;
+  background: -moz-linear-gradient(left,  #ffffff 0%, #d3d3d3 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#d3d3d3));
+  background: -webkit-linear-gradient(left,  #ffffff 0%,#d3d3d3 100%);
+  background: -o-linear-gradient(left,  #ffffff 0%,#d3d3d3 100%);
+  background: -ms-linear-gradient(left,  #ffffff 0%,#d3d3d3 100%);
+  background: linear-gradient(to right,  #ffffff 0%,#d3d3d3 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d3d3d3',GradientType=1 );
+
+ }
+ .prev,.next {
+  cursor:pointer;
+  background: url("images/arrows-calendar.png") no-repeat 3px center;
+  display:block;
+  position:absolute;
+  height:20px;
+  width:20px;
+  top:0;
+  border: 1px solid #6CAFD6;
+  border-radius:5px;
+  z-index:1;
+ }
+ .prev {
+  left:0;
+ }
+ .next {
+  background-position: -29px center;
+  right:0;
+ }
+ .curmonth {
+  font-weight: bold;
+  height: 23px;
+  line-height: 23px;
+  text-align: center;
+  :first-letter {
+   text-transform: uppercase;
+  }
+ }
+ .weekdays {
+  padding:6px 0;
+  font-weight:bold;
+ }
+ span {
+  border: 1px solid transparent;
+  display: inline-block;
+  line-height: 24px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
+  width: 16px;
+  margin: 1px 0;
+  cursor:default;
+  &:nth-child(6),&:nth-child(7) {
+   color:#7B0000;
+  }
+ }
+ .monthdays {
+  span {
+   background: none repeat scroll 0 0 rgba(247, 243, 247, 0.3);
+   border-color: #dfe6ec;
+   color: #94AABD;
+   text-align: right;
+   &:hover {
+    background: none repeat scroll 0 0 rgba(234, 244, 253, 0.5);
+    border-color: #b9cbda;
+   }
+   &.today {
+    color:#e17046;
+   }
+   &.event {
+    border-color: #6CAFD6;
+    color:#54719e;
+    background: rgba(227,241,252,0.8);
+    font-weight: bold;
+    .item {
+     margin: 5px 0;
+    }
+   }
+   &:nth-child(6),&:nth-child(7) {
+    color:#7B0000;
+   }
+   &.over {
+    color:#ccc;
+   }
+   > div {
+    display:none;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.85);
+    border: 1px solid #6CAFD6;
+    box-shadow: 0 0 5px #707070;
+    line-height: 1;
+    margin-top: -7%;
+    min-width: 100%;
+    padding: 5px 10px;
+    position: absolute;
+    text-align: left;
+    z-index: 100;
+    overflow: auto;
+    max-height: 200px;
+   }
+   &:hover > div {
+    display:block;
+   }
+  }
+
+ }
+
+}
