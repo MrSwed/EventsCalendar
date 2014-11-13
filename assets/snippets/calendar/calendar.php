@@ -31,7 +31,7 @@ select * from (
  select id,if(pub_date,pub_date,publishedon) as publishedon,$pagetitle,$hideInCalendar
   from ".$modx->db->config['table_prefix']."site_content sc
   where if(pub_date,pub_date,publishedon) >= {$dates[0]} and if(pub_date,pub_date,publishedon) < {$dates[1]}
-      and published=1 and isfolder=0 and deleted=0
+      and published=1 and isfolder=0 and deleted=0 and parent<>0
      and type='document'
  ) as content
 where pagetitle is not null and (hideInCalendar is null or hideInCalendar = 0)
