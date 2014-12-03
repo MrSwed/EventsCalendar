@@ -11,10 +11,11 @@ $modx->minParserPasses=2;
 //echo $modx->RunSnippet('Ditto',array('parent'=>$modx->db->escape($_POST['parent'])));
 // вот тут мы выполняем сниппет по нашим данным
 
+$dates = array((int)@$_REQUEST["start"],(int)@$_REQUEST["end"]);
 
 $dates = array(
- !empty($_REQUEST["start"])?$_REQUEST["start"]:mktime(0,0,0,date("n"),1),
- !empty($_REQUEST["end"])?$_REQUEST["end"]:mktime(0,0,0,date("n")+1,1)
+ !empty($dates[0])?$dates[0]:mktime(0,0,0,date("n"),1),
+ !empty($dates[1])?$dates[1]:mktime(0,0,0,date("n")+1,1)
 );
 
 $pagetitle = empty($_COOKIE["yams_lang"])?"pagetitle":
