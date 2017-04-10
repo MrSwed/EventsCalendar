@@ -1,4 +1,4 @@
-.calendar {
+.EventsCalendar {
   position: relative;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -14,10 +14,18 @@
   text-align: center;
   height: 168px;
 }
-.calendar .prev,
-.calendar .next {
+.EventsCalendar,
+.EventsCalendar * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.EventsCalendar div {
+  position: relative;
+}
+.EventsCalendar .prev,
+.EventsCalendar .next {
   cursor: pointer;
-  background: url("images/nav-calendar.png") no-repeat scroll 0 center rgba(0, 0, 0, 0);
   border-radius: 17px;
   display: block;
   height: 100%;
@@ -26,14 +34,19 @@
   width: 17px;
   z-index: 1;
 }
-.calendar .prev {
+.EventsCalendar .prev {
   left: 0;
 }
-.calendar .next {
-  background-position: -18px center;
+.EventsCalendar .prev:before {
+  content: '\25C4';
+}
+.EventsCalendar .next {
   right: 0;
 }
-.calendar .curmonth {
+.EventsCalendar .next:before {
+  content: '\25BA';
+}
+.EventsCalendar .curmonth {
   font-weight: bold;
   height: 23px;
   line-height: 23px;
@@ -41,7 +54,7 @@
   color: #424242;
   text-transform: capitalize;
 }
-.calendar .weekdays {
+.EventsCalendar .weekdays {
   border: 1px solid #c5c5c5;
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
@@ -56,11 +69,11 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#dbdbdb',GradientType=0 );;
   color: #7C8289;
 }
-.calendar .weekdays span {
+.EventsCalendar .weekdays span {
   border: none;
   text-transform: capitalize;
 }
-.calendar span {
+.EventsCalendar span {
   font-size: 10px;
   border-width: 0 1px 1px;
   border-style: solid;
@@ -75,14 +88,14 @@
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
-.calendar .monthdays > div,
-.calendar .weekdays {
+.EventsCalendar .monthdays > div,
+.EventsCalendar .weekdays {
   border-collapse: collapse;
   display: table;
   table-layout: fixed;
   width: 100%;
 }
-.calendar .monthdays span {
+.EventsCalendar .monthdays span {
   color: #155d93;
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
@@ -97,10 +110,26 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#cce9e6',GradientType=0 );;
   text-align: center;
 }
-.calendar .monthdays span:hover {
-  box-shadow: 0 0 1px #333333 inset;
+.EventsCalendar .monthdays span:active {
+  background: #cce9e6;
+  background: -moz-linear-gradient(top, #cce9e6 0%, #fefefe 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cce9e6), color-stop(100%, #fefefe));
+  background: -webkit-linear-gradient(top, #cce9e6 0%, #fefefe 100%);
+  background: -o-linear-gradient(top, #cce9e6 0%, #fefefe 100%);
+  background: -ms-linear-gradient(top, #cce9e6 0%, #fefefe 100%);
+  background: linear-gradient(to bottom, #cce9e6 0%, #fefefe 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cce9e6', endColorstr='#fefefe',GradientType=0 );;
 }
-.calendar .monthdays span.today {
+.EventsCalendar .monthdays span:hover:after {
+  box-shadow: 0 0 1px #333333 inset;
+  content: '';
+  display: block;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  top: 0;
+}
+.EventsCalendar .monthdays span.today {
   color: #fff;
   -moz-box-shadow: inset 0 1px 3px #035caa;
   -webkit-box-shadow: inset 0 1px 3px #035caa;
@@ -114,13 +143,13 @@
   background: linear-gradient(to bottom, #70b9f3 0%, #388be8 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#70b9f3', endColorstr='#388be8',GradientType=0 );;
 }
-.calendar .monthdays span.event {
+.EventsCalendar .monthdays span.event {
   box-shadow: 0 0 1px red inset;
 }
-.calendar .monthdays span.event.today {
+.EventsCalendar .monthdays span.event.today {
   box-shadow: inset 0 1px 3px #035caa, 0 0 1px red inset;
 }
-.calendar .monthdays span.over {
+.EventsCalendar .monthdays span.over {
   color: rgba(67, 149, 235, 0.3);
   background: #feffff;
   background: -moz-linear-gradient(top, #feffff 0%, #e9f8f7 100%);
@@ -131,7 +160,7 @@
   background: linear-gradient(to bottom, #feffff 0%, #e9f8f7 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#e9f8f7',GradientType=0 );
 }
-.calendar .monthdays span > div {
+.EventsCalendar .monthdays span > div {
   display: none;
   background: none repeat scroll 0 0 rgba(255, 255, 255, 0.85);
   border: 1px solid #6CAFD6;
@@ -146,9 +175,9 @@
   overflow: auto;
   max-height: 200px;
 }
-.calendar .monthdays span > div .item {
+.EventsCalendar .monthdays span > div .item {
   margin: 5px 0;
 }
-.calendar .monthdays span:hover > div {
+.EventsCalendar .monthdays span:hover > div {
   display: block;
 }
