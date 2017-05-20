@@ -1,24 +1,38 @@
-<div class="EventsCalendar">
-	<div class="curmonth">
-		<div class="prev"></div>
-		<div class="name"></div>
-		<div class="next"></div>
-	</div>
-	<div class="weekdays">
-		<span>пн</span>
-		<span>вт</span>
-		<span>ср</span>
-		<span>чт</span>
-		<span>пт</span>
-		<span>сб</span>
-		<span>вс</span>
-	</div>
-	<div class="monthdays">
-		<span></span>
+<html>
+<head>
+	<title>Events Calendar demo example</title>
+	<script src="assets/js/jquery-1.9.0-min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/js/EventsCalendar/EventsCalendar.js"></script>
+	<link rel="stylesheet" href="assets/js/EventsCalendar/EventsCalendar.css">
+	<script type="text/javascript">var EventsCalendarLang = {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};</script>
+</head>
+<body>
+<div style="width:200px">
+
+	<div class="EventsCalendar">
+		<div class="caption">Календарь событий</div>
+		<div class="inner">
+			<div class="curmonth">
+				<div class="prev"></div>
+				<div class="name"></div>
+				<div class="next"></div>
+			</div>
+			<div class="weekdays">
+				<span>пн</span>
+				<span>вт</span>
+				<span>ср</span>
+				<span>чт</span>
+				<span>пт</span>
+				<span>сб</span>
+				<span>вс</span>
+			</div>
+			<div class="monthdays">
+				<span></span>
+			</div>
+		</div>
 	</div>
 </div>
-<script src="assets/js/jquery-1.9.0-min.js" type="text/javascript" charset="utf-8"></script>
 
-<link rel="stylesheet" href="assets/templates/Calendar/EventsCalendar.css">
-	<script type="text/javascript">var EventsCalendarLang = {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};</script>
-<script src="assets/templates/Calendar/EventsCalendar.js"></script>
+
+</body>
+</html>

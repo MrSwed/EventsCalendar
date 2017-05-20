@@ -1,5 +1,9 @@
 .EventsCalendar {
-  position: relative;
+  text-align: center;
+}
+.EventsCalendar > .inner {
+  border-radius: 14px;
+  padding: 2px 5px 1em;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -9,10 +13,10 @@
   font-family: "Calibri";
   cursor: default;
   background: #d4dfdd;
-  border-radius: 14px;
-  padding: 2px 5px 1em;
-  text-align: center;
-  height: 168px;
+}
+.EventsCalendar > .caption {
+  font-weight: bold;
+  padding: .2em 0;
 }
 .EventsCalendar,
 .EventsCalendar * {
