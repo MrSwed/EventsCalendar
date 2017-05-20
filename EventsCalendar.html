@@ -4,7 +4,12 @@
 	<script src="assets/js/jquery-1.9.0-min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="assets/js/EventsCalendar/EventsCalendar.js"></script>
 	<link rel="stylesheet" href="assets/js/EventsCalendar/EventsCalendar.css">
-	<script type="text/javascript">var EventsCalendarLang = {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};</script>
+	<script type="text/javascript">
+		$(function(){
+			$(".EventsCalendar").EventsCalendar({"lang": {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")}});
+		});
+
+	</script>
 </head>
 <body>
 <div style="width:200px">
