@@ -14,8 +14,10 @@ if (typeof jQuery == "function") {
 			"EventsCalendar": function(opt){
 				return $(this).each(function(){
 					var _c = this;
-					_c.p = $.extend({}, {'lang': {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")}}, opt);
-					// if (!_c.p.lang) _c.p.lang = {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")};
+					_c.p = $.extend({}, {
+						'lang': {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")},
+						'onloadMonth': false
+						}, opt);
 					var today = new Date();
 					today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // reset to 00:00:00
 					var monthDraw = function(m, p){ // m - месяц в теущем году или смещение (+-) относительного текущего месяца
@@ -58,7 +60,7 @@ if (typeof jQuery == "function") {
 					var eventsDraw = function(p){
 						$.extend({}, {
 							"start": new Date(today.getFullYear(), today.getMonth(), 1),
-							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0),
+							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0)
 						}, p);
 						$.ajax({
 							type: 'POST',
@@ -68,7 +70,7 @@ if (typeof jQuery == "function") {
 							data: {
 								q: 'assets/snippets/EventsCalendar/EventsCalendar.php',
 								start: p["start"],
-								end: p["end"],
+								end: p["end"]
 							},
 							success: function(data, xhr, textStatus){
 //     console.log(data);
@@ -89,6 +91,7 @@ if (typeof jQuery == "function") {
 										formatZero(iDate.getHours(), 2) + ":" + formatZero(iDate.getMinutes(), 2) + ":" + formatZero(iDate.getSeconds(), 2)
 										+ '</div><a href="' + v["url"] + '">' + v["pagetitle"] + '</a></div>');
 								});
+								if (typeof _c.p.onloadMonth ==="function") mDays.each(_c.p.onloadMonth); 
 							},
 							complete: function(xhr, textStatus){
 								if (!xhr || !xhr.status || textStatus != "success") {
@@ -105,7 +108,7 @@ if (typeof jQuery == "function") {
 						monthDraw(go);
 						eventsDraw({
 							"start": $(".monthdays", _c).data("start"),
-							"end": $(".monthdays", _c).data("end"),
+							"end": $(".monthdays", _c).data("end")
 						});
 					});
 					$(".name", $(".curmonth", _c)).click();
