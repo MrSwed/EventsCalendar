@@ -8,11 +8,11 @@ Open index-ajax.php and append snippet dir `assets/snippets/EventsCalendar/` at 
 $allowed_dirs = array('assets/snippets/ajaxSearch/'); 
 ```
 Instead 
-```
+```php
 $allowed_dirs = array('assets/snippets/ajaxSearch/');
 ```
 must be
-```
+```php
 $allowed_dirs = array('assets/snippets/ajaxSearch/','assets/snippets/EventsCalendar/');
 ```
 
