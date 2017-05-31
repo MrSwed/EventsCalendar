@@ -18,7 +18,7 @@ $allowed_dirs = array('assets/snippets/ajaxSearch/','assets/snippets/EventsCalen
 
 #### Usage example
 
-Use chunk ***EventsCalendar*** for draw html template.
+Use chunk ***{{EventsCalendar}}*** for draw html template.
 
 Jquery usage examples:
 
@@ -27,7 +27,7 @@ with default parameters:
  - image field: *image*,
  - phpthumb options *w=300,h=300*
 
-``` 
+```javascript
 $(".EventsCalendar").EventsCalendar();
 ```
 
