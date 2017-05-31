@@ -8,28 +8,34 @@ $modx->getSettings();
 startCMSSession();
 $modx->minParserPasses=2;
 
-//echo $modx->RunSnippet('Ditto',array('parent'=>$modx->db->escape($_POST['parent'])));
-// вот тут мы выполняем сниппет по нашим данным
-
 $dates = array((int)@$_REQUEST["start"],(int)@$_REQUEST["end"]);
 
 $dates = array(
  !empty($dates[0])?$dates[0]:mktime(0,0,0,date("n"),1),
  !empty($dates[1])?$dates[1]:mktime(0,0,0,date("n")+1,1)
 );
+$image = false;
+if (!isset($_REQUEST["image"]) or is_array($_REQUEST["image"])) {
+	$image = array(
+		"field" => !empty($_REQUEST["image"]["field"])?$_REQUEST["image"]["field"]:"image",
+		"options" => !empty($_REQUEST["image"]["options"])?$_REQUEST["image"]["options"]:"w=300,h=300"
+	);
+}
 
 $pagetitle = empty($_COOKIE["yams_lang"])?"pagetitle":
  "(select value from ".$modx->db->config['table_prefix']."site_tmplvar_contentvalues tvv
  left join ".$modx->db->config['table_prefix']."site_tmplvars tvn on tvn.id = tvv.tmplvarid
 where tvv.contentid = sc.id and tvn.name='pagetitle_".$_COOKIE["yams_lang"]."' and value <>'') as pagetitle";
 
-$hideInCalendar ="(select value from ".$modx->db->config['table_prefix']."site_tmplvar_contentvalues tvv
+$tvValues = array();
+foreach (explode(",","hideInCalendar".((is_array($image) and !empty($image["field"]))?",".$image["field"]:"")) as $tvValue) 
+	$tvValues[$tvValue] = "(select value from ".$modx->db->config['table_prefix']."site_tmplvar_contentvalues tvv
  left join ".$modx->db->config['table_prefix']."site_tmplvars tvn on tvn.id = tvv.tmplvarid
-where tvv.contentid = sc.id and tvn.name='hideInCalendar') as hideInCalendar";
+where tvv.contentid = sc.id and tvn.name='{$tvValue}') as {$tvValue}";
 
 $sql = "
 select * from (
- select id,if(pub_date,pub_date,publishedon) as publishedon,$pagetitle,$hideInCalendar
+ select id,if(pub_date,pub_date,publishedon) as publishedon,$pagetitle, ". implode(", ",$tvValues)."
   from ".$modx->db->config['table_prefix']."site_content sc
   where if(pub_date,pub_date,publishedon) >= {$dates[0]} and if(pub_date,pub_date,publishedon) < {$dates[1]}
       and published=1 and isfolder=0 and deleted=0 and parent<>0
@@ -43,6 +49,8 @@ $arr=array();
 while( $row = $modx->db->getRow( $r ) ) {
  $arr[$row["id"]] = $row;
  $arr[$row["id"]]["url"] = (!empty($_COOKIE["yams_lang"])?"/".$_COOKIE["yams_lang"]:"").$modx->makeUrl($row["id"]);
+ if (is_array($image) and !empty($image["field"]) and $arr[$row["id"]]["image"]) 
+    $arr[$row["id"]]["image"] = $modx->runSnippet("phpthumb",array("input"=>$arr[$row["id"]]["image"], "options"=>$image["options"]));
 }
 //print_r($arr);
 //echo $sql;

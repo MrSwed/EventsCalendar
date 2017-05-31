@@ -12,12 +12,15 @@ if (typeof jQuery == "function") {
 
 		$.fn.extend({
 			"EventsCalendar": function(opt){
+				// todo: out template for item of event, date format, etc
 				return $(this).each(function(){
 					var _c = this;
 					_c.p = $.extend({}, {
 						'lang': {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")},
+						// image TV field and phpthumb options, set "image" : false or "none" for disable
+						// 'image':{"field":"image","options":"w=300,h=300"},
 						'onloadMonth': false
-						}, opt);
+					}, opt);
 					var today = new Date();
 					today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // reset to 00:00:00
 					var monthDraw = function(m, p){ // m - месяц в теущем году или смещение (+-) относительного текущего месяца
@@ -58,20 +61,18 @@ if (typeof jQuery == "function") {
 						}
 					};
 					var eventsDraw = function(p){
-						$.extend({}, {
+						var data = $.extend({}, {
+							"q": 'assets/snippets/EventsCalendar/EventsCalendar.php',
 							"start": new Date(today.getFullYear(), today.getMonth(), 1),
 							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0)
 						}, p);
+						if (typeof _c.p.image !== "undefined" ) data["image"] = _c.p.image; 
 						$.ajax({
 							type: 'POST',
 							url: '/index-ajax.php',
 							cache: false,
 							dataType: "json",
-							data: {
-								q: 'assets/snippets/EventsCalendar/EventsCalendar.php',
-								start: p["start"],
-								end: p["end"]
-							},
+							data: data,
 							success: function(data, xhr, textStatus){
 //     console.log(data);
 								var mDays = $(".monthdays", _c);
@@ -86,15 +87,18 @@ if (typeof jQuery == "function") {
 										evDay.data("text", evDay.text());
 										evDay.addClass("event").append("<div />");
 									}
-									$(">div", evDay).append('<div class="item"><div class="date">' +
-										formatZero(iDate.getDate(), 2) + "." + formatZero(1 + iDate.getMonth(), 2) + "." + iDate.getFullYear() + " " +
-										formatZero(iDate.getHours(), 2) + ":" + formatZero(iDate.getMinutes(), 2) + ":" + formatZero(iDate.getSeconds(), 2)
-										+ '</div><a href="' + v["url"] + '">' + v["pagetitle"] + '</a></div>');
+									$(">div", evDay).append('<div class="item">' +
+										(v["image"] ? '<div class="image"><img src="' + v["image"] + '" alt="' + v["pagetitle"] + '" /></div>' : '') +
+										'<div class="date">' +
+										formatZero(iDate.getDate(), 2) + "." + formatZero(1 + iDate.getMonth(), 2) + "." + iDate.getFullYear() +
+										" " + formatZero(iDate.getHours(), 2) + ":" + formatZero(iDate.getMinutes(), 2) + ":" + formatZero(iDate.getSeconds(), 2) +
+										'</div>' +
+										'<a href="' + v["url"] + '">' + v["pagetitle"] + '</a></div>');
 								});
-								if (typeof _c.p.onloadMonth ==="function") mDays.each(_c.p.onloadMonth); 
+								if (typeof _c.p.onloadMonth === "function") mDays.each(_c.p.onloadMonth);
 							},
 							complete: function(xhr, textStatus){
-								if (!xhr || !xhr.status || textStatus != "success") {
+								if (!xhr || !xhr.status || textStatus !== "success") {
 									console.log(xhr, textStatus);
 								}
 							}
