@@ -1,4 +1,4 @@
-###Using with standart index-ajax.php
+### Using with standart index-ajax.php
 
 Open index-ajax.php and append snippet dir `assets/snippets/EventsCalendar/` at this code part:
 ```
@@ -22,7 +22,7 @@ Use chunk ***EventsCalendar*** for draw html template.
 
 Jquery usage examples:
 
-#####Simple call:
+##### Simple call:
 with default parameters: 
  - image field: *image*,
  - phpthumb options *w=300,h=300*
@@ -31,7 +31,7 @@ with default parameters:
 $(".EventsCalendar").EventsCalendar();
 ```
 
-#####Set image parameters
+##### Set image parameters
 
 ```javascript
 $(".EventsCalendar").EventsCalendar({
@@ -39,7 +39,7 @@ $(".EventsCalendar").EventsCalendar({
 });
 ```
 
-#####Set no image
+##### Set no image
 
 ```javascript 
 $(".EventsCalendar").EventsCalendar({
@@ -47,7 +47,7 @@ $(".EventsCalendar").EventsCalendar({
 });
 ```
 
-#####Override the output of the event list and click instead of hover
+##### Override the output of the event list and click instead of hover
 
 This example usable for list of events on external visible div loaded by click to day of month with event instead mouse hover.
 
