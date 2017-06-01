@@ -13,7 +13,7 @@
 		cursor: default;
 		background: #d4dfdd;
 	}
-	>.caption {
+	> .caption {
 		font-weight: bold;
 		padding: .2em 0;
 	}
@@ -70,38 +70,38 @@
 		background: linear-gradient(to bottom, #fafafa 0%, #ececec 50%, #dbdbdb 100%);
 		filter: e("progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#dbdbdb',GradientType=0 );");
 		color: #7C8289;
-		span {
+		> span {
 			border: none;
 			text-transform: capitalize;
 		}
-	}
-	span {
-		font-size: 10px;
-		border-width: 0 1px 1px;
-		border-style: solid;
-		border-color: #c5c5c5;
-		cursor: default;
-		display: table-cell;
-		height: 1.86em;
-		margin: 0;
-		text-align: center;
-		vertical-align: middle;
-		width: 14.2%;
-		font-weight: bold;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
-
-		//  &:nth-child(6),&:nth-child(7) {
-		//   color:#7B0000;
-		//  }
 	}
 	.monthdays > div, .weekdays {
 		border-collapse: collapse;
 		display: table;
 		table-layout: fixed;
 		width: 100%;
+		> span {
+			font-size: 10px;
+			border-width: 0 1px 1px;
+			border-style: solid;
+			border-color: #c5c5c5;
+			cursor: default;
+			display: table-cell;
+			height: 1.86em;
+			margin: 0;
+			text-align: center;
+			vertical-align: middle;
+			width: 14.2%;
+			font-weight: bold;
+			text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
+
+			//  &:nth-child(6),&:nth-child(7) {
+			//   color:#7B0000;
+			//  }
+		}
 	}
 	.monthdays {
-		span {
+		> div > span {
 			color: #155d93;
 			-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
 			-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
@@ -184,6 +184,10 @@
 				max-height: 200px;
 				.item {
 					margin: 5px 0;
+					display: block;
+					> span {
+						display: block;
+					}
 				}
 			}
 			&:hover > div {

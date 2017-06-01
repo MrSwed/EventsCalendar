@@ -4,6 +4,11 @@ function formatZero(item, countZero){
 		for (i = 1; i <= need; i++) item = "0" + item
 	return item;
 }
+String.prototype.replaceArray = function(find, replace){
+	var replaceString = this;
+	for (var i = 0; i < find.length; i++) replaceString = replaceString.replace(find[i], replace[i]);
+	return replaceString;
+};
 
 if (typeof jQuery == "function") {
 // jQuery.noConflict();
@@ -12,18 +17,21 @@ if (typeof jQuery == "function") {
 
 		$.fn.extend({
 			"EventsCalendar": function(opt){
-				// todo: out template for item of event, date format, etc
 				return $(this).each(function(){
 					var _c = this;
 					_c.p = $.extend({}, {
 						'lang': {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")},
+						'eventTpl': '<a href="%url" class="item">%imageTpl<span class="date">%d.%m.%Y %H:%i:%s</span><span class="title">%title</span></a>',
+						'imageTpl': '<span class="image"><img src="%src" alt="%alt" /></span>',
 						// image TV field and phpthumb options, set "image" : false or "none" for disable
 						// 'image':{"field":"image","options":"w=300,h=300"},
 						'onloadMonth': false
 					}, opt);
+					var to$ = ["eventTpl", "imageTpl"]; // к единому виду, если указан существующий шаблон
+					for (var k in to$) if (typeof _c.p[to$[k]] === "object") _c.p[to$[k]] = $(_c.p[to$[k]]).html();
 					var today = new Date();
 					today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // reset to 00:00:00
-					var monthDraw = function(m, p){ // m - месяц в теущем году или смещение (+-) относительного текущего месяца
+					var monthDraw = function(m, p){ // m - месяц в текущем году или смещение (+-) относительного текущего месяца
 						p = $.extend({}, {
 							onlyCurrent: false, // true - hide dates filled on empty weekdays for prev and next month
 							year: false
@@ -66,7 +74,7 @@ if (typeof jQuery == "function") {
 							"start": new Date(today.getFullYear(), today.getMonth(), 1),
 							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0)
 						}, p);
-						if (typeof _c.p.image !== "undefined" ) data["image"] = _c.p.image; 
+						if (typeof _c.p.image !== "undefined") data["image"] = _c.p.image;
 						$.ajax({
 							type: 'POST',
 							url: '/index-ajax.php',
@@ -87,13 +95,19 @@ if (typeof jQuery == "function") {
 										evDay.data("text", evDay.text());
 										evDay.addClass("event").append("<div />");
 									}
-									$(">div", evDay).append('<div class="item">' +
-										(v["image"] ? '<div class="image"><img src="' + v["image"] + '" alt="' + v["pagetitle"] + '" /></div>' : '') +
-										'<div class="date">' +
-										formatZero(iDate.getDate(), 2) + "." + formatZero(1 + iDate.getMonth(), 2) + "." + iDate.getFullYear() +
-										" " + formatZero(iDate.getHours(), 2) + ":" + formatZero(iDate.getMinutes(), 2) + ":" + formatZero(iDate.getSeconds(), 2) +
-										'</div>' +
-										'<a href="' + v["url"] + '">' + v["pagetitle"] + '</a></div>');
+									$(">div", evDay).append(_c.p.eventTpl.replaceArray(
+										"%imageTpl,%url,%title,%d,%m,%Y,%H,%i,%s".split(","),
+										[v["image"] ? _c.p.imageTpl.replaceArray("%src,%alt".split(","), [v["image"], v["pagetitle"]]) : "",
+											v["url"],
+											v["pagetitle"],
+											formatZero(iDate.getDate(), 2),
+											formatZero(1 + iDate.getMonth(), 2),
+											iDate.getFullYear(),
+											formatZero(iDate.getHours(), 2),
+											formatZero(iDate.getMinutes(), 2),
+											formatZero(iDate.getSeconds())
+										]
+									));
 								});
 								if (typeof _c.p.onloadMonth === "function") mDays.each(_c.p.onloadMonth);
 							},

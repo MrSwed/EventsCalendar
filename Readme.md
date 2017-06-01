@@ -31,6 +31,16 @@ with default parameters:
 $(".EventsCalendar").EventsCalendar();
 ```
 
+##### Set language
+
+```javascript
+$(".EventsCalendar").EventsCalendar({
+"lang":{'months':
+'january,february,march,april,may,june,july,august,september,october,november,december'.split(",")}
+});
+
+```
+
 ##### Set image parameters
 
 ```javascript
@@ -46,6 +56,15 @@ $(".EventsCalendar").EventsCalendar({
 "image":false
 });
 ```
+
+##### Set custom templates for popup event items 
+
+```javascript
+$(".EventsCalendar").EventsCalendar({
+	'eventTpl': '<a href="%url" class="item">%imageTpl<span class="date">%d.%m.%Y %H:%i:%s</span><span class="title">%title</span></a>',
+	'imageTpl': '<span class="image"><img src="%src" alt="%alt" /></span>'
+});
+``` 
 
 ##### Override the output of the event list and click instead of hover
 
@@ -80,14 +99,4 @@ Also, on css remove hover handler
 .EventsCalendar .monthdays span:hover > div {
   display: block;
 }
-```
-
-##### Set language
-
-```javascript
-$(".EventsCalendar").EventsCalendar({
-"lang":{'months':
-'january,february,march,april,may,june,july,august,september,october,november,december'.split(",")}
-});
-
 ```
