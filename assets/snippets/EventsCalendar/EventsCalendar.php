@@ -18,10 +18,11 @@ $image = false;
 if (!isset($_REQUEST["image"]) or is_array($_REQUEST["image"])) {
 	$image = array(
 		"field" => !empty($_REQUEST["image"]["field"])?$_REQUEST["image"]["field"]:"image",
-		"options" => !empty($_REQUEST["image"]["options"])?$_REQUEST["image"]["options"]:"w=300,h=300"
+		"options" => !empty($_REQUEST["image"]["options"])?$_REQUEST["image"]["options"]:
+			 "w=".(isset($modx->config["thumbWidth"])?$modx->config["thumbWidth"]:150).
+			 ",h=".(isset($modx->config["thumbHeight"])?$modx->config["thumbHeight"]:150)
 	);
 }
-
 $pagetitle = empty($_COOKIE["yams_lang"])?"pagetitle":
  "(select value from ".$modx->db->config['table_prefix']."site_tmplvar_contentvalues tvv
  left join ".$modx->db->config['table_prefix']."site_tmplvars tvn on tvn.id = tvv.tmplvarid

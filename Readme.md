@@ -35,8 +35,8 @@ $(".EventsCalendar").EventsCalendar();
 
 ```javascript
 $(".EventsCalendar").EventsCalendar({
-"lang":{'months':
-'january,february,march,april,may,june,july,august,september,october,november,december'.split(",")}
+	"lang":{'months':
+	'january,february,march,april,may,june,july,august,september,october,november,december'.split(",")}
 });
 
 ```
@@ -45,7 +45,7 @@ $(".EventsCalendar").EventsCalendar({
 
 ```javascript
 $(".EventsCalendar").EventsCalendar({
-"image":{field:"tvimage","options":"w=200,h=200"}
+	"image":{field:"tvimage","options":"w=200,h=200"}
 });
 ```
 

@@ -24,7 +24,7 @@ if (typeof jQuery == "function") {
 						'eventTpl': '<a href="%url" class="item">%imageTpl<span class="date">%d.%m.%Y %H:%i:%s</span><span class="title">%title</span></a>',
 						'imageTpl': '<span class="image"><img src="%src" alt="%alt" /></span>',
 						// image TV field and phpthumb options, set "image" : false or "none" for disable
-						// 'image':{"field":"image","options":"w=300,h=300"},
+						// 'image':{"field":"image","options":"w=150,h=150"},
 						'onloadMonth': false
 					}, opt);
 					var to$ = ["eventTpl", "imageTpl"]; // к единому виду, если указан существующий шаблон
