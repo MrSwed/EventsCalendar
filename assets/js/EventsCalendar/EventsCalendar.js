@@ -1,9 +1,3 @@
-function formatZero(item, countZero){
-	need = countZero - ("" + item).length;
-	if (need > 0)
-		for (i = 1; i <= need; i++) item = "0" + item
-	return item;
-}
 String.prototype.replaceArray = function(find, replace){
 	var replaceString = this;
 	for (var i = 0; i < find.length; i++) replaceString = replaceString.replace(find[i], replace[i]);
@@ -19,16 +13,27 @@ if (typeof jQuery == "function") {
 			"EventsCalendar": function(opt){
 				return $(this).each(function(){
 					var _c = this;
-					_c.p = $.extend({}, {
+					_c.p = $.extend(true,{}, {
 						'lang': {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")},
-						'eventTpl': '<a href="%url" class="item">%imageTpl<span class="date">%d.%m.%Y %H:%i:%s</span><span class="title">%title</span></a>',
-						'imageTpl': '<span class="image"><img src="%src" alt="%alt" /></span>',
+						'tpl' : { // templates
+							'dateBetween': ' &ndash; ',
+							'dates': '<span class="dates">%dates</span>',
+							'date' : '<span class="date">%d.%m.%Y %H:%i:%s</span>',
+							'event': '<a href="%url" class="item" data-id="%id">%image%date<span class="title">%title</span></a>',
+							'image': '<span class="image"><img src="%src" alt="%alt" /></span>'
+						},
 						// image TV field and phpthumb options, set "image" : false or "none" for disable
 						// 'image':{"field":"image","options":"w=150,h=150"},
+
+						// for user other dates for event
+						// 'useDates':"dates_start,date_end", // same as
+						// 'useDates':{"field":"dates_start,date_end"},
+						// 'useDates':{"field":"dates","multi":1}, // same as
+						// 'useDates':{"field":"dates","multi":{"delimRow":"||","delimCol":"::"}},
 						'onloadMonth': false
 					}, opt);
-					var to$ = ["eventTpl", "imageTpl"]; // к единому виду, если указан существующий шаблон
-					for (var k in to$) if (typeof _c.p[to$[k]] === "object") _c.p[to$[k]] = $(_c.p[to$[k]]).html();
+					var to$ = ["event", "image","dates","date"]; // к единому виду, если указан существующий шаблон-jQuery объект
+					for (var k in to$) if (typeof _c.p.tpl[to$[k]] === "object") _c.p.tpl[to$[k]] = $(_c.p.tpl[to$[k]]).html();
 					var today = new Date();
 					today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // reset to 00:00:00
 					var monthDraw = function(m, p){ // m - месяц в текущем году или смещение (+-) относительного текущего месяца
@@ -37,7 +42,7 @@ if (typeof jQuery == "function") {
 							year: false
 						}, p);
 						var mDays = $(".monthdays", _c), y = p["year"];
-						if (typeof m === "undefined" || !m) mDate = new Date(y ? y : today.getFullYear(), today.getMonth(), 1); //текущий месяц
+						if (!m) mDate = new Date(y ? y : today.getFullYear(), today.getMonth(), 1); //текущий месяц
 						else {
 							mDate = mDays.data("date") ? mDays.data("date") : today;
 							y = y ? y : mDate.getFullYear();
@@ -60,13 +65,20 @@ if (typeof jQuery == "function") {
 						while (++wSS < 50) { // рисуем дни
 							var setD = new Date(y, m, wSS);
 							var sDm = {m: setD.getMonth(), wd: setD.getDay(), d: setD.getDate()};
-							var weekD = sDm["wd"] == 1 ? $("<div />").appendTo($(".monthdays", _c)) : $(".monthdays div:last", _c); //обертка в неделю
-							var isCurM = sDm["m"] == m;
-							var dayclass = (!isCurM ? "over " : "") + (today.getTime() == setD.getTime() ? "today " : "");
-							weekD.append("<span " + (dayclass ? "class='" + dayclass + "'" : "") + ">" +
-								((isCurM || !p["onlyCurrent"]) ? sDm["d"] : "&nbsp;") + "</span> ");
+							var weekD = sDm["wd"] === 1 ? $("<div />").appendTo($(".monthdays", _c)) : $(".monthdays div:last", _c); //обертка в неделю
+							var isCurM = sDm["m"] === m;
+							var dayclass = (!isCurM ? "over " : "") + (today.getTime() === setD.getTime() ? "today " : "");
+							$("<span " + (dayclass ? "class='" + dayclass + "'" : "") + ">" +
+															((isCurM || !p["onlyCurrent"]) ? sDm["d"] : "&nbsp;") + "</span> ")
+								.data("date",setD).appendTo(weekD);
 							if (setD.getTime() >= setDe.getTime()) break;
 						}
+					};
+					var tplDateDraw = function(d){
+						return _c.p.tpl.date.replaceArray("%d,%m,%Y,%H,%i,%s".split(","),
+							[("0" + d.getDate()).slice(-2), ("0" + (1 + d.getMonth())).slice(-2), d.getFullYear(),
+								("0" + d.getHours()).slice(-2), ("0" + d.getMinutes()).slice(-2), ("0" + d.getSeconds()).slice(-2)]
+							);
 					};
 					var eventsDraw = function(p){
 						var data = $.extend({}, {
@@ -74,7 +86,8 @@ if (typeof jQuery == "function") {
 							"start": new Date(today.getFullYear(), today.getMonth(), 1),
 							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0)
 						}, p);
-						if (typeof _c.p.image !== "undefined") data["image"] = _c.p.image;
+						if (typeof _c.p.image !== "undefined") data["image"] = _c.p.image; 
+						if (typeof _c.p.useDates !== "undefined" ) data["useDates"] = _c.p.useDates; 
 						$.ajax({
 							type: 'POST',
 							url: '/index-ajax.php',
@@ -86,29 +99,51 @@ if (typeof jQuery == "function") {
 								var mDays = $(".monthdays", _c);
 								var m = mDays.data("date").getMonth();
 								$.each(data, function(i, v){
-									var iDate = new Date(v["publishedon"] * 1000);
-									var evDay = $("span" + (iDate.getMonth() != m ? ".over" : ":not(.over)"), mDays)
-										.filter(function(){
-											return $(this).data("text") == iDate.getDate() || $(this).text() == iDate.getDate();
-										});
-									if (!$(">div", evDay).size()) {
-										evDay.data("text", evDay.text());
-										evDay.addClass("event").append("<div />");
-									}
-									$(">div", evDay).append(_c.p.eventTpl.replaceArray(
-										"%imageTpl,%url,%title,%d,%m,%Y,%H,%i,%s".split(","),
-										[v["image"] ? _c.p.imageTpl.replaceArray("%src,%alt".split(","), [v["image"], v["pagetitle"]]) : "",
-											v["url"],
-											v["pagetitle"],
-											formatZero(iDate.getDate(), 2),
-											formatZero(1 + iDate.getMonth(), 2),
-											iDate.getFullYear(),
-											formatZero(iDate.getHours(), 2),
-											formatZero(iDate.getMinutes(), 2),
-											formatZero(iDate.getSeconds())
-										]
-									));
-								});
+									// var evDay = $("span" + (iDate.getMonth() != m ? ".over" : ":not(.over)"), mDays)
+									$("> div > span", mDays)
+										.each(function(){
+											var evDay = $(this);
+											var dayStart = $(this).data("date").getTime();
+											var dayEnd = dayStart + (60 * 60 * 24 * 1000);
+											var isEvent = false, DateTpl;
+											if (typeof v["date"] === "object") {
+												DateTpl = [];
+												
+												for (var row in v["date"]) {
+													var d0 = v["date"][row][0] * 1000;
+													var d1 = v["date"][row][1] * 1000 || d0;
+													d0 = d0 || d1;
+													if ((d0 >= dayStart && d0 < dayEnd) // first date
+														|| (d0 < dayStart && d1 > dayEnd)  // bettween
+													 || (d1 >= dayStart && d1 < dayEnd) // last date
+													) {
+														isEvent = true;
+														DateTpl[row] =_c.p.tpl.dates.replace("%dates",
+															tplDateDraw(new Date(d0)) + ((d0 !== d1)?_c.p.tpl.dateBetween + tplDateDraw(new Date(d1)):"")
+															);
+													}
+												}
+											} else {
+												if (v["date"] * 1000 >= dayStart && v["date"] * 1000 < dayEnd) {
+													isEvent = true;
+													DateTpl = tplDateDraw(new Date(v["date"] * 1000))
+												}
+											}
+											if (isEvent) {
+												if (!$(">div", evDay).length) evDay.addClass("event").append("<div />");
+												if (typeof DateTpl==="object" ) DateTpl = DateTpl.join("\n");
+												$(">div", evDay).append(_c.p.tpl.event.replaceArray(
+													"%id,%image,%date,%url,%title".split(","),
+													[v["id"],
+														v["image"]?_c.p.tpl.image.replaceArray("%src,%alt".split(","), [v["image"], v["pagetitle"]]):"",
+														DateTpl,
+														v["url"],
+														v["pagetitle"]
+													]
+												))
+											}
+										}); // end check each day
+								}); // end check each event
 								if (typeof _c.p.onloadMonth === "function") mDays.each(_c.p.onloadMonth);
 							},
 							complete: function(xhr, textStatus){
