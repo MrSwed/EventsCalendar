@@ -30,12 +30,10 @@
 .EventsCalendar .prev,
 .EventsCalendar .next {
   cursor: pointer;
-  border-radius: 17px;
   display: block;
   height: 100%;
   position: absolute;
   top: 0;
-  width: 17px;
   z-index: 1;
 }
 .EventsCalendar .prev {
@@ -52,8 +50,8 @@
 }
 .EventsCalendar .curmonth {
   font-weight: bold;
-  height: 23px;
-  line-height: 23px;
+  height: 1.4375em;
+  line-height: 1.4375em;
   text-align: center;
   color: #424242;
   text-transform: capitalize;
@@ -171,21 +169,50 @@
   border: 1px solid #6CAFD6;
   box-shadow: 0 0 5px #707070;
   line-height: 1;
-  margin-top: -7%;
+  margin: -0.5em 0.5em;
   min-width: 100%;
-  padding: 5px 10px;
+  padding: 0.2em 0.5em;
   position: absolute;
   text-align: left;
   z-index: 100;
   overflow: auto;
-  max-height: 200px;
+  max-height: 15em;
+  width: 23em;
+  font-size: 0.8rem;
+}
+.EventsCalendar .monthdays > div > span > div a {
+  text-decoration: none;
+  color: blue;
+}
+.EventsCalendar .monthdays > div > span > div a:hover .title {
+  text-decoration: underline;
+}
+.EventsCalendar .monthdays > div > span > div .date {
+  color: #424242;
+  display: block;
+}
+.EventsCalendar .monthdays > div > span > div .dates .date {
+  display: inline-block;
 }
 .EventsCalendar .monthdays > div > span > div .item {
   margin: 5px 0;
   display: block;
 }
+.EventsCalendar .monthdays > div > span > div .item:not(:last-child) {
+  padding-bottom: 0.5em;
+  border-bottom: 1px dotted gray;
+}
 .EventsCalendar .monthdays > div > span > div .item > span {
   display: block;
+}
+.EventsCalendar .monthdays > div > span > div .image {
+  display: block;
+  float: left;
+  margin-right: 0.5em;
+  max-width: 3em;
+}
+.EventsCalendar .monthdays > div > span > div .image img {
+  max-width: 100%;
 }
 .EventsCalendar .monthdays > div > span:hover > div {
   display: block;

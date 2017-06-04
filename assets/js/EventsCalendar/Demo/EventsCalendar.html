@@ -6,7 +6,10 @@
 	<link rel="stylesheet" href="../EventsCalendar.css">
 	<script type="text/javascript">
 		$(function(){
-			$(".EventsCalendar").EventsCalendar({"lang": {'months': 'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'.split(",")}});
+			$(".EventsCalendar").EventsCalendar({
+				"ajax":{"url":"demoevents.json"},
+				"today":new Date(2017,5,1)
+			});
 		});
 
 	</script>
@@ -37,7 +40,7 @@
 		</div>
 	</div>
 </div>
-
+* В качестве сегодняшней даты используется 1 июня 2017 
 
 </body>
 </html>
