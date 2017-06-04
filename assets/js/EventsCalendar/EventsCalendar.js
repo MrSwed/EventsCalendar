@@ -36,11 +36,12 @@ if (typeof jQuery == "function") {
 							'data':{
 								"q": 'assets/snippets/EventsCalendar/EventsCalendar.php'
 							}
-						}
+						},
+						// "today" : new Date()
 					}, opt);
 					var to$ = ["event", "image","dates","date"]; // к единому виду, если указан существующий шаблон-jQuery объект
 					for (var k in to$) if (typeof _c.p.tpl[to$[k]] === "object") _c.p.tpl[to$[k]] = $(_c.p.tpl[to$[k]]).html();
-					var today = new Date();
+					var today = _c.p.today || new Date();
 					today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // reset to 00:00:00
 					var monthDraw = function(m, p){ // m - месяц в текущем году или смещение (+-) относительного текущего месяца
 						p = $.extend({}, {
