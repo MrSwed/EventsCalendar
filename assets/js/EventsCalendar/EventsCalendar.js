@@ -30,7 +30,13 @@ if (typeof jQuery == "function") {
 						// 'useDates':{"field":"dates_start,date_end"},
 						// 'useDates':{"field":"dates","multi":1}, // same as
 						// 'useDates':{"field":"dates","multi":{"delimRow":"||","delimCol":"::"}},
-						'onloadMonth': false
+						'onloadMonth': false,
+						'ajax' : {
+							'url': '/index-ajax.php',
+							'data':{
+								"q": 'assets/snippets/EventsCalendar/EventsCalendar.php'
+							}
+						}
 					}, opt);
 					var to$ = ["event", "image","dates","date"]; // к единому виду, если указан существующий шаблон-jQuery объект
 					for (var k in to$) if (typeof _c.p.tpl[to$[k]] === "object") _c.p.tpl[to$[k]] = $(_c.p.tpl[to$[k]]).html();
@@ -81,8 +87,7 @@ if (typeof jQuery == "function") {
 							);
 					};
 					var eventsDraw = function(p){
-						var data = $.extend({}, {
-							"q": 'assets/snippets/EventsCalendar/EventsCalendar.php',
+						var data = $.extend({}, _c.p.ajax.data,{
 							"start": new Date(today.getFullYear(), today.getMonth(), 1),
 							"end": new Date(today.getFullYear(), today.getMonth() + 1, 0)
 						}, p);
@@ -90,16 +95,14 @@ if (typeof jQuery == "function") {
 						if (typeof _c.p.useDates !== "undefined" ) data["useDates"] = _c.p.useDates; 
 						$.ajax({
 							type: 'POST',
-							url: '/index-ajax.php',
+							url: _c.p.ajax.url,
 							cache: false,
 							dataType: "json",
 							data: data,
 							success: function(data, xhr, textStatus){
-//     console.log(data);
 								var mDays = $(".monthdays", _c);
 								var m = mDays.data("date").getMonth();
 								$.each(data, function(i, v){
-									// var evDay = $("span" + (iDate.getMonth() != m ? ".over" : ":not(.over)"), mDays)
 									$("> div > span", mDays)
 										.each(function(){
 											var evDay = $(this);
@@ -108,7 +111,6 @@ if (typeof jQuery == "function") {
 											var isEvent = false, DateTpl;
 											if (typeof v["date"] === "object") {
 												DateTpl = [];
-												
 												for (var row in v["date"]) {
 													var d0 = v["date"][row][0] * 1000;
 													var d1 = v["date"][row][1] * 1000 || d0;
