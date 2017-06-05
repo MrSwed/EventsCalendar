@@ -2,8 +2,13 @@
 
 ## Install
 
+use [PackageManager](https://github.com/Jako/PackageManager) or 
+
 - Copy assets/* 
-- Add chunk from install/chunks 
+- Add chunk from install/chunks/* 
+- Add tv from install/tvs/*
+
+Then 
 - Open index-ajax.php and append snippet dir `assets/snippets/EventsCalendar/` at this code part:
 ```
 // Add items to this array corresponding to which directories within assets/snippets/ can be used by this file.
@@ -137,8 +142,40 @@ $(".EventsCalendar").EventsCalendar({
 		'image': '<img src="%src" alt="%alt" />'
 	}
 });
+```
 
+## Use multi dates
 
+### Use two tv fields
+
+```javascript
+$(".EventsCalendar").EventsCalendar({
+	"useDates":{field:"TVDate_start,TVDate_end"}
+});
+```
+
+### Use ddMultipleFields dates (delimited rows and cols)
+
+Add to mm_rules mm_ddMultipleFields rule for TV `date`:
+ 
+```php
+mm_ddMultipleFields("dates", '', '', 'date,date', "Date Start, Date End");
+```
+and use js call
+```javascript
+$(".EventsCalendar").EventsCalendar({
+	"useDates":{field:"date","multi":1}
+});
+```
+
+### Use MultiTV (JSON)
+
+**not ready yet :(**
+
+```javascript
+$(".EventsCalendar").EventsCalendar({
+	"useDates":{field:"date","multi":"JSON"}
+});
 ```
 
 ## Override the output of the event list and click instead of hover
@@ -169,7 +206,6 @@ JS call:
 		$(">.items", EC).html($("div", this).html());
 	});
 })(".EventsCalendar");
-
 ```
 
 Also, on css remove hover handler
