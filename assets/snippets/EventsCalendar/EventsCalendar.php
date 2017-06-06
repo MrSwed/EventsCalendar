@@ -187,9 +187,8 @@ while( $row = $modx->db->getRow( $r ) ) {
 			}
 			// $arr[$rid]["datedebug"] = $arr[$rid]["date"];
 			array_walk_recursive($arr[$rid]["date"], function (&$i, $k, $dateFormat) {
-				if ($i) {
-					$dateFormat = str_replace("%", "", $dateFormat);
-					$i = DateTime::createFromFormat($dateFormat, $i)->format('U');
+				if ($i=DateTime::createFromFormat(str_replace("%", "", $dateFormat), $i)) {
+					$i = $i->format('U');
 				}
 			}, $useDates["dateFormat"]);
 		} else {
