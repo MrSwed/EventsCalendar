@@ -184,28 +184,34 @@ This example usable for list of events at external visible div loaded by click t
 
 JS call:
 ```javascript
-(function(EC){
-	EC = $(EC);
-	var ecM = $(".monthdays ", EC);
-	EC.EventsCalendar({
-		"onloadMonth": function(){
-			var ecM = $(this);
-			var ecToday = $("span.today", ecM);
-			var NEvent;
-			$("span.event", ecM).each(function(){
-				if (!$(NEvent).length ||
-					Math.abs($(NEvent).data("date") - $(ecToday).data("date")) > Math.abs($(this).data("date") - $(ecToday).data("date"))
-				) NEvent = $(this);
+		(function(EC){
+			EC = $(EC);
+			var ecM = $(".monthdays ", EC);
+			EC.EventsCalendar({
+/* Multi field usage example * /
+				"useDates":{"field":"dates","multi":1},
+				'tpl': {"date": '<span class="date">%d.%m.%Y</span>'},
+				'image':{"options":"w=300,h=300"},
+				// image:1,
+/* */
+				"onloadMonth": function(){
+					var ecM = $(this);
+					var ecToday = $("span.today", ecM);
+					var NEvent ; 
+					$("span.event", ecM).each(function(){
+						if (!$(NEvent).length ||
+							Math.abs($(NEvent).data("date") - $(ecToday).data("date")) > Math.abs($(this).data("date") - $(ecToday).data("date"))
+						) NEvent = $(this); 
+					});
+					$(NEvent).click();
+				}
+			}).on("click", ".monthdays span.event", function(e){
+				e.preventDefault();
+				$("span.event", ecM).removeClass("active");
+				$(this).addClass("active");
+				$(">.items", EC).html($("div", this).html());
 			});
-			$(NEvent).click();
-		}
-	}).on("click", ".monthdays span.event", function(e){
-		e.preventDefault();
-		$("span.event", ecM).removeClass("active");
-		$(this).addClass("active");
-		$(">.items", EC).html($("div", this).html());
-	});
-})(".EventsCalendar");
+		})(".EventsCalendar");
 ```
 
 Also, on css remove hover handler
